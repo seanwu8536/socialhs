@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="hobbyboard">
+   
+   <select id="list" resultType="com.bc.hobby.vo.HobbyBoardVO"
+      parameterType="Map">
+      select *
+             from b_board
+                 where l_idx = #{l_idx} and hs = #{hs}
+   </select>
+   
+   <select id="list_category" resultType="com.bc.hobby.vo.HobbyBoardVO"
+      parameterType="Map">
+      select * 
+         from bbs_code a, b_board b
+          where a.bbs_idx = b.bbs_idx and l_idx = #{l_idx} and hs = #{hs}
+   </select>
+   
+   <select id="list_from_category" resultType="com.bc.hobby.vo.HobbyBoardVO" parameterType="Map">
+      select * 
+         from bbs_code a, b_board b
+          where a.bbs_idx = b.bbs_idx 
+          and l_idx = #{l_idx} and hs = #{hs} 
+          and a.bbs_idx = #{bbs_idx}
+   </select>
+   
+   <select id="one" resultType="com.bc.hobby.vo.HobbyBoardVO"
+      parameterType="String">
+      select * 
+         from b_board
+         where bb_idx = #{bb_idx}
+   </select>
+   
+   <select id="get_ViewVO" resultType="com.bc.hobby.vo.HobbyBoardVO"
+      parameterType="String">
+      select * from b_board a, bbs_code b  where a.bbs_idx = b.bbs_idx and a.bb_idx = #{bb_idx}
+   </select>
+   
+   <select id="get_CommentVO" resultType="com.bc.main.vo.CommentVO"
+      parameterType="String">
+      select * from bb_comment where bb_idx = #{bb_idx} order by regdate desc
+   </select>
+   
+   <select id="get_getApplyVo" resultType="com.bc.main.vo.ApplyVO"
+      parameterType="String">
+      select * from apply where bb_idx = #{bb_idx} order by a_idx
+   </select>
+
+	<select id="getPopupList" resultType="com.bc.main.vo.PopUpVO"
+      parameterType="String">
+      select a.id, a.regdate, b.name, b.phone, b.email, a.bb_idx 
+     		 from apply a , member b 
+     		 where a.id = b.id and bb_idx = #{bb_idx}
+   </select>
+
+	<update id="updateHit" parameterType="String">
+		update b_board set hit = hit+1 where bb_idx = #{bb_idx}
+	</update>
+
+   
+</mapper>  
+
+
+
+
+

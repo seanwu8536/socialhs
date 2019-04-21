@@ -1,0 +1,74 @@
+/* 관리자 페이지 더보기를 눌렀을 때 나타나는 화면 css */
+
+	#infohead {
+		width: 200px;
+		height: 100%;
+		background-color: #f9f9f9;
+		margin-top: -9999px;
+		margin-bottom: -9999px;
+		padding-top: 9999px;
+		padding-bottom: 9999px;
+	}
+	
+	.menu { text-indent: 10px; }
+	.topMenuLi {
+		list-style: none;
+		cursor: pointer;
+	}
+	.topMenuLi li { list-style: none; }
+	.menuLink {
+		height: 35px;
+		line-height: 35px;
+	}
+	
+	.submenuUl { display: none; }
+	.submenuUl a {
+		margin-bottom: 2px;
+		height: 35px;
+		line-height: 35px;
+		cursor: pointer;
+	}
+	
+	.submenuLink {
+		display: block;
+		height: 100%; width: 100%;
+		cursor: pointer;
+		background-color: #f1f1f1;
+		text-decoration: none;
+	}
+	.submenuLink:hover {
+		display: block;
+		background-color: gold;
+	}
+	
+	#infohead a, #infohead a:hover { text-decoration: none; color: black; }
+	a { color: black; }
+	table a:hover {
+		text-decoration: underline;
+		color: forestgreen;
+	}
+	
+	#adminPage table {
+		/* border: 1px lightgray solid;
+		border-collapse: collapse; */
+		width: 1100px; margin: auto; padding: 50px; 
+	}
+	/* #allList, #hobbylist, #studylist, #allmemberInfo, #categoryAdd */
+	
+	#chartpage { padding-left: 50px; padding-right: 50px; }
+		
+	#adminPage .center { text-align: center; }
+	#adminPage .right { text-align: right; }
+	#adminPage .left { text-align: left; }
+	#adminPage { overflow: hidden; display: flex; }
+	
+	/* 탭 스타일 */
+	.tabcontent { display: none; }
+	.tabcontent .current { display: inherit; }
+	#infohead .current { background-color: gold; } 
+	/* 탭 스타일 끝 */
+	
+	#searchmenu {
+		text-align: center; 
+		padding-bottom: 20px;
+	}

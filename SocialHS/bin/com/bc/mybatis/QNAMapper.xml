@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="QNA">
+
+	<select id="q_Maplist" resultType="com.bc.main.vo.BoardVO" parameterType="Map">
+		SELECT * FROM (
+		SELECT ROWNUM R_NUM, P.*
+		  FROM (SELECT *
+		          FROM B_BOARD
+		          WHERE BBS_IDX = 5
+		         ORDER BY BB_IDX DESC
+		        ) P)
+		 WHERE R_NUM BETWEEN #{beginPage} AND #{endPage}
+	</select>
+
+
+	<select id="QNAlist" resultType="com.bc.main.vo.BoardVO">
+		SELECT * FROM B_BOARD WHERE BBS_IDX = 5 ORDER BY BB_IDX DESC
+	</select>
+	
+	
+	
+	<select id="QNAone" resultType="com.bc.main.vo.BoardVO" parameterType="String">
+		SELECT * FROM B_BOARD WHERE BB_IDX = #{bb_idx}
+	</select>
+	
+	
+	
+	<insert id="QNAwrite" parameterType="com.bc.main.vo.BoardVO">
+		 INSERT INTO B_BOARD (BB_IDX, ID, TITLE, CONTENT, L_IDX, BBS_IDX)
+					VALUES(BB_SEQ.NEXTVAL, #{id}, #{title}, #{content}, 1, 5) 
+	</insert>
+	
+	
+	
+	<update id="QNAupdate" parameterType="com.bc.main.vo.BoardVO">
+		UPDATE B_BOARD
+		       SET TITLE = #{title},
+		         CONTENT = #{content}
+		 	WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	<delete id="QNAdelete" parameterType="String">
+		DELETE FROM B_BOARD WHERE BB_IDX = #{bb_idx}
+	</delete>
+	
+	
+	
+	<delete id="QNAdeleteComment" parameterType="String">
+		DELETE FROM
+		BB_COMMENT WHERE
+		BB_IDX = #{bb_idx}
+	</delete>
+	
+	
+	<update id="QNAhitVO" parameterType="com.bc.main.vo.BoardVO">
+		UPDATE B_BOARD 
+		   SET HIT = #{hit} + 1 
+		 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	<update id="QNAhit" parameterType="int">
+		UPDATE B_BOARD
+		   SET HIT = HIT + 1
+		 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	<update id="q_goodVO" parameterType="String">
+		UPDATE B_BOARD 
+		   SET GOOD = GOOD + 1 
+		 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	<update id="q_badVO" parameterType="String">
+		UPDATE B_BOARD 
+		   SET BAD = BAD - 1 
+		 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	
+	<insert id="QNAwriteComment" parameterType="com.bc.main.vo.CommentVO">
+		INSERT INTO BB_COMMENT (BBC_IDX, ID, CONTENT, REGDATE, BB_IDX)
+		VALUES(BBC_SEQ.NEXTVAL, #{id}, #{content}, SYSDATE, #{bb_idx})
+	</insert>
+</mapper>
+	
+	
+
+
+
+
+
+

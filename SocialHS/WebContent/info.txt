@@ -1,0 +1,14 @@
+	session 객체에 저장되어있는 키
+{hs : hobby, study}
+{location : 0 ~ }
+{memberVO : 로그인 성공한 MemberVO객체}
+{AdminVO  : 관리자 AdminVO객체}
+{id : 회원가입->아이디 중복 체크시 사용가능한 아이디}
+{joinInfo: 회원가입된 MemberVO 객체}
+{s_list : 검색한 게시판 list}
+
+공유 VO
+com.bc.main.vo
+- BbsCodeVO	: 게시판 코드 VO
+- BoardVO	: 게시판 VO
+- CommentVO	: 댓글 VO

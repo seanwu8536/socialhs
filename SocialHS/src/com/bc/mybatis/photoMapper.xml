@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="photo">
+	
+	<select id="list" resultType="com.bc.hobby.vo.PhotoBoardVO">
+		SELECT * FROM HB_PHOTO ORDER BY PHOT_IDX DESC
+	</select>
+	
+	<!-- 게시글 상세보기(1개) -->
+	<select id="one" resultType="com.bc.hobby.vo.PhotoBoardVO"
+					 parameterType="String">
+		SELECT * FROM HB_PHOTO WHERE PHOT_IDX = #{phot_idx}
+	</select>
+	
+	
+	
+</mapper>  

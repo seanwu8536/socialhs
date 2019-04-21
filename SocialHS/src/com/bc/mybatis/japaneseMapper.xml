@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="japanese">
+	
+	<select id="list" resultType="com.bc.study.vo.JapaneseBoardVO">
+		SELECT * FROM SB_STOCK ORDER BY JAP_IDX DESC
+	</select>
+</mapper>  

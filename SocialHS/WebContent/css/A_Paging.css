@@ -1,0 +1,30 @@
+/* 페이징 표시 시작 */
+	.paging {
+		list-style: none;
+		display: table;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.paging li {
+		float: left;
+		margin-right: 8px;
+	}
+	.paging li a {
+		text-decoration: none;
+		color: black;
+	}
+	.paging li a:hover {
+		color: forestgreen;
+		font-weight: bold;
+	}
+	
+	.paging .disable {
+		color: silver;
+	}
+	.paging .now {
+		font-weight: bold;
+		color: forestgreen;
+		text-decoration: underline;
+	}
+
+/* 페이징 표시 끝 */

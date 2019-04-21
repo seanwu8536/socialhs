@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="apply">
+	
+	<insert id = "insertApply" parameterType="com.bc.main.vo.ApplyVO">
+	 	insert into apply(a_idx, id, bb_idx, regdate)
+	 			values(APPLY_SEQ.nextVal, #{id}, #{bb_idx}, sysdate)
+	</insert>
+	
+	<update id = "updateCurrent" parameterType="String">
+		update b_board set cur_member = cur_member + 1 where bb_idx = #{bb_idx}
+	</update>
+	
+	<delete id = "deleteApply" parameterType="com.bc.main.vo.ApplyVO">
+	 	delete from apply where id = #{id} and bb_idx = #{bb_idx}
+	</delete>
+	
+	<update id = "minusCurrent" parameterType="String">
+		update b_board set cur_member = cur_member - 1 where bb_idx = #{bb_idx}
+	</update>
+	
+	
+	
+	<update id="updateChk" parameterType="String">
+		UPDATE B_BOARD SET CHK = CHK+1 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	
+	
+</mapper>  

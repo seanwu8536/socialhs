@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="mainwrite">
+	
+	
+	<select id = "list" resultType="com.bc.main.vo.BbsCodeVO">
+		SELECT * FROM bbs_code where bbs_type = #{bbs_type}
+	</select>
+	
+	<insert id = "insert" parameterType="com.bc.hobby.vo.HobbyBoardVO">
+		insert into b_board(bb_idx,id,title,content,regdate,req_member,l_idx,bbs_idx
+					,hs,latitude, longitude, time, place) 
+					values(bb_seq.nextVal,#{id},#{title},#{content},sysdate,#{req_member}
+							,#{l_idx},#{bbs_idx},#{hs},#{latitude},#{longitude},#{time},#{place})
+	</insert>
+	
+	<update id = "updatePoint" parameterType="String">
+		update member set point = point + 10 where id = #{id}
+	</update>
+</mapper>  
+
+
+
+
+
+

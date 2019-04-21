@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="admin">
+
+	<!-- 관리자 아이디 조회 -->
+	<select id="Aidchk" resultType="com.bc.admin.AdminVO"
+		parameterType="String">
+		SELECT * FROM ADMIN WHERE ID = #{id}
+	</select>
+	
+	<!-- 관리자의 정보 수정 -->
+	<update id="" parameterType="com.bc.admin.AdminVO">
+	</update>
+	
+	<!-- 관리자 추가!!! -->
+	
+	<!-- 게시판 전체 조회 -->
+	<select id="allList" resultType="com.bc.admin.A_AllBoardVO"
+		parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM R_NUM, T.*
+			FROM (
+				SELECT B.BB_IDX, BBS.BBS_NAME, B.TITLE, B.ID, B.REGDATE, B.RP, B.CUR_MEMBER, B.REQ_MEMBER
+				FROM B_BOARD B, BBS_CODE BBS
+				WHERE B.BBS_IDX = BBS.BBS_IDX
+				ORDER BY B.REGDATE DESC) T)
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 회원정보 전체 조회 -->
+	<select id="allmemberInfo" resultType="com.bc.member.memberVO"
+		parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM R_NUM, M.*
+			FROM (
+				SELECT * FROM MEMBER
+				ORDER BY REGDATE DESC) M)
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 전체 게시글 수 조회 -->
+	<select id="allWriteCount" resultType="int">
+		SELECT COUNT(*) FROM B_BOARD
+	</select>
+	
+	<!-- 전체 회원 수 조회 -->
+	<select id="allMemberCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
+	<!-- 전체 게시글 조회(취미) -->
+	<select id="allhobbyList" resultType="com.bc.admin.A_AllBoardVO"
+		parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM R_NUM, H.*
+			FROM (
+				SELECT B.BB_IDX, BBS.BBS_NAME, B.TITLE, B.ID, B.REGDATE, 
+				B.HS, B.RP, B.CUR_MEMBER, B.REQ_MEMBER
+					FROM B_BOARD B, BBS_CODE BBS
+					WHERE B.BBS_IDX = BBS.BBS_IDX
+                	AND B.HS = 'h'
+					ORDER BY B.REGDATE DESC) H)
+			WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	
+	<!-- 전체 게시글 조회(스터디) -->
+	<select id="allstudyList" resultType="com.bc.admin.A_AllBoardVO"
+		parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM R_NUM, S.*
+			FROM (
+				SELECT B.BB_IDX, BBS.BBS_NAME, B.TITLE, B.ID, B.REGDATE, 
+				B.HS, B.RP, B.CUR_MEMBER, B.REQ_MEMBER
+					FROM B_BOARD B, BBS_CODE BBS
+                	WHERE B.BBS_IDX = BBS.BBS_IDX
+                	AND B.HS = 's'
+					ORDER BY B.REGDATE DESC) S)
+			WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 게시글 수 조회(취미) -->
+	<select id="allHobbyCount" resultType="int">
+		SELECT COUNT(*) FROM B_BOARD WHERE HS = 'h'
+	</select>
+	<!-- 게시글 수 조회(스터디) -->
+	<select id="allStudyCount" resultType="int">
+		SELECT COUNT(*) FROM B_BOARD WHERE HS = 's'
+	</select>
+	
+	
+	<!-- 제목/내용으로 검색 -->
+	<select id="searchlist" resultType="com.bc.admin.A_AllBoardVO"
+		parameterType="Map">
+		SELECT B.*, BBS.* FROM B_BOARD B, BBS_CODE BBS
+				WHERE B.BBS_IDX = BBS.BBS_IDX
+					AND (UPPER(TITLE) LIKE '%'||UPPER (#{title}) ||'%'
+					OR UPPER(CONTENT) LIKE '%'||UPPER (#{content}) ||'%')
+	</select>
+	
+	<select id="searchWrite" resultType="com.bc.admin.A_AllBoardVO"
+		parameterType="Map">
+		SELECT * FROM (
+    			SELECT ROWNUM R_NUM, C.*
+            		FROM (
+					SELECT B.*, BBS.BBS_NAME, BBS_TYPE  FROM B_BOARD B, BBS_CODE BBS
+						WHERE B.BBS_IDX = BBS.BBS_IDX
+							AND (UPPER(TITLE) LIKE '%'||UPPER (#{title}) ||'%'
+							OR UPPER(CONTENT) LIKE '%'||UPPER (#{content}) ||'%') ) C )
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- 아이디로 검색 -->
+	<select id="searchId" resultType="com.bc.member.memberVO"
+		parameterType="Map">
+		SELECT * FROM (
+			SELECT ROWNUM R_NUM, C.* FROM (
+				SELECT * FROM MEMBER WHERE UPPER(ID) LIKE '%'||UPPER (#{id}) ||'%') C )
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<select id="idcnt" resultType="com.bc.member.memberVO"
+		parameterType="String">
+		SELECT * FROM MEMBER WHERE UPPER(ID) LIKE '%'||UPPER (#{id}) ||'%'
+	</select>
+	<!-- category 구하는 부분 -->
+	<select id="getBBS_IDX" resultType="int"
+		parameterType="String">
+		select count(*) from bbs_code where bbs_type = #{bbs_type}
+	</select>
+
+	<insert id="insertCategory" parameterType="com.bc.main.vo.BbsCodeVO">
+		insert into bbs_code(bbs_idx, bbs_name, bbs_type) values (#{bbs_idx}, #{bbs_name}, #{bbs_type})
+	</insert>
+	
+	<select id="googleChartHobbyVO" resultType="com.bc.main.vo.googleChartVO">
+		select b.l_name as "l_name", b.l_idx as "l_idx", 
+  					nvl(count(a.l_idx),0) as "number"
+		   			 from b_board a, location b 
+				        where a.l_idx(+) = b.l_idx and a.hs(+) = 'h'
+				        group by b.l_name, b.l_idx
+				        order by b.l_idx
+	</select>
+	
+	<select id="googleChartStudyVO" resultType="com.bc.main.vo.googleChartVO">
+		select b.l_name as "l_name", b.l_idx as "l_idx", 
+  					nvl(count(a.l_idx),0) as "number"
+		   			 from b_board a, location b 
+				        where a.l_idx(+) = b.l_idx and a.hs(+) = 's'
+				        group by b.l_name, b.l_idx
+				        order by b.l_idx
+	</select>
+	
+	
+</mapper>  

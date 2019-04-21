@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+
+	<select id="CommentList" resultType="com.bc.main.vo.CommentVO"
+		parameterType="String">
+		SELECT * FROM BB_COMMENT WHERE BB_IDX = #{bb_idx} ORDER
+		BY BBC_IDX DESC
+	</select>
+
+
+	<insert id="CommentWrite"
+		parameterType="com.bc.main.vo.CommentVO">
+		INSERT INTO BB_COMMENT (BBC_IDX, ID, CONTENT, REGDATE, BB_IDX)
+		VALUES(BBC_SEQ.NEXTVAL, #{id}, #{content}, SYSDATE, #{bb_idx})
+	</insert>
+
+	<delete id="CommentDelete" parameterType="String">
+		DELETE FROM BB_COMMENT
+		WHERE BBC_IDX = #{bbc_idx}
+	</delete>
+
+	<insert id="insertComment"
+		parameterType="com.bc.main.vo.CommentVO">
+		insert into bb_comment (bbc_idx, id, content, regdate, bb_idx )
+		values (BBC_SEQ.nextVal, #{id}, #{content}, sysdate, #{bb_idx})
+	</insert>
+
+
+	<delete id="deleteComment" parameterType="String">
+		delete from bb_comment where bbc_idx = #{bbc_idx}
+	</delete>
+
+	<delete id="b_deleteComment" parameterType="String">
+		delete from bb_comment where bb_idx = #{bb_idx}
+	</delete>
+	
+	<delete id="q_deleteComment" parameterType="String">
+		delete from bb_comment where bb_idx = #{bb_idx}
+	</delete>
+
+	<select id="listComment" parameterType="String"
+		resultType="com.bc.main.vo.CommentVO">
+		select * from bb_comment where bb_idx = #{bb_idx} order by regdate desc
+	</select>
+ 
+	<delete id="delBb_idx">
+		DELETE FROM BB_COMMENT WHERE BB_IDX = #{bb_idx}
+	</delete>
+ 
+	<update id="updatePoint" parameterType="String" >
+		update member set point = point + 5 where id = #{id}
+	</update>
+	
+</mapper>  
+
+
+
+	
+
+
+
+

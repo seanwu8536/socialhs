@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성 -->
+<mapper namespace="SubLocation">
+
+	<select id="list" resultType="com.bc.main.vo.SubLocationVO"
+		parameterType="String">
+		SELECT * FROM SUB_LOCATION WHERE L_IDX = #{L_IDX}
+	</select>
+
+	<select id="all" resultType="com.bc.main.vo.SubLocationVO">
+		SELECT * FROM SUB_LOCATION ORDER BY
+		L_IDX
+	</select>
+
+	<select id="listBoard" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		WHERE SL_IDX = #{sl_idx} AND HS =
+		#{hs}
+	</select>
+
+	<select id="listBoardCommentCnt" resultType="int"
+		parameterType="Map">
+		SELECT COUNT(*)
+		FROM B_BOARD
+		WHERE SL_IDX = #{sl_idx} and
+		hs = #{hs}
+	</select>
+
+	<select id="BoardCommList" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, T.*
+		FROM (SELECT *
+		FROM B_BOARD
+		WHERE SL_IDX = #{sl_idx} and HS = #{hs}
+		ORDER BY BB_IDX
+		DESC) T)
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+
+
+	<!-- 내가 수정한 부분 시작 -->
+	<select id="countAll" resultType="int">
+		SELECT COUNT(*) FROM B_BOARD
+		WHERE SL_IDX = #{sl_idx} AND HS = #{hs}
+	</select>
+
+	<select id="locationName" resultType="hashmap"
+		parameterType="String">
+		select l_name, sl_name
+		from location l, sub_location s
+		where l.l_idx = s.l_idx
+		and sl_idx = #{sl_idx}
+	</select>
+
+
+
+
+
+	<!-- 서브 로케이션 선택 후 검색 기능 -->
+	<select id="sl_search" resultType="com.bc.main.vo.BoardVO"
+		parameterType="map">
+		SELECT *
+			FROM (SELECT ROWNUM R_NUM, B.*
+					FROM (SELECT *
+							FROM B_BOARD
+							WHERE
+							HS = #{hs}
+							AND SL_IDX = #{sl_idx}
+							AND
+							<if test="cat == 't'.toString()">
+								TITLE LIKE '%'||#{keyword}||'%'
+							</if>
+							<if test="cat == 'w'.toString()">
+								ID LIKE '%'||#{keyword}||'%'
+							</if>
+							<if test="cat == 'c'.toString()">
+								CONTENT LIKE '%'||#{keyword}||'%'
+							</if>
+							<if test="cat == 'tc'.toString()">
+								(TITLE LIKE '%'||#{keyword}||'%'
+								OR CONTENT LIKE '%'||#{keyword}||'%')
+							</if>
+							ORDER BY BB_IDX DESC) B
+						)
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+
+	</select>
+
+	<select id="sl_searchCnt" resultType="int"
+		parameterType="map">
+
+		SELECT COUNT(*)
+		FROM B_BOARD
+		WHERE
+		HS = #{hs}
+		AND SL_IDX = #{sl_idx}
+		AND
+		<if test="cat == 't'.toString()">
+			TITLE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="cat == 'w'.toString()">
+			ID LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="cat == 'c'.toString()">
+			CONTENT LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="cat == 'tc'.toString()">
+			(TITLE LIKE '%'||#{keyword}||'%'
+			OR CONTENT LIKE '%'||#{keyword}||'%')
+		</if>
+	</select>
+
+
+</mapper>  
+
+
+
+
+
+

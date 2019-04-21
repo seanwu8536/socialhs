@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="search">
+
+	<select id="title" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND UPPER(TITLE) LIKE UPPER('%' || #{keyword} || '%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+	<select id="title2" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND SL_IDX = #{sl_idx}
+		AND UPPER(TITLE) LIKE UPPER('%' || #{keyword} ||
+		'%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+	<select id="id" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND UPPER(ID) LIKE UPPER('%' || #{keyword} || '%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+
+	<select id="id2" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND SL_IDX = #{sl_idx}
+		AND UPPER(ID) LIKE UPPER('%' || #{keyword} ||
+		'%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+	<select id="content" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND UPPER(CONTENT) LIKE UPPER('%' || #{keyword} || '%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+	<select id="content2" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND SL_IDX = #{sl_idx}
+		AND UPPER(CONTENT) LIKE UPPER('%' || #{keyword}
+		|| '%')
+		ORDER BY BB_IDX DESC
+	</select>
+
+	<select id="idContent" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND UPPER(TITLE) LIKE UPPER('%' || #{keyword} || '%')
+		OR UPPER(CONTENT)
+		LIKE UPPER('%' || #{keyword} || '%')
+		ORDER BY BB_IDX DESC
+	</select>
+	
+	
+	<select id="idContent2" resultType="com.bc.main.vo.BoardVO" parameterType="Map">
+		SELECT *
+		FROM B_BOARD
+		<choose>
+			<when test='hs == "hobby"'>
+				WHERE UPPER(HS) = UPPER('h')
+			</when>
+			<when test='hs == "study"'>
+				WHERE UPPER(HS) = UPPER('s')
+			</when>
+		</choose>
+		AND SL_IDX = #{sl_idx}
+		AND UPPER(TITLE) LIKE UPPER('%' || #{keyword} || '%')
+		OR UPPER(CONTENT)
+		LIKE UPPER('%' || #{keyword} || '%')
+		ORDER BY BB_IDX DESC
+	</select>
+</mapper>  
+
+
+
+
+
+

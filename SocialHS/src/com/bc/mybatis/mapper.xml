@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성 -->
+<mapper namespace="socialhs">
+
+	<select id="hobbyList" resultType="com.bc.main.vo.BbsCodeVO">
+		SELECT * FROM BBS_CODE WHERE 
+		BBS_IDX BETWEEN 300 AND 500 ORDER BY BBS_IDX
+	</select>
+
+
+	<select id="studyList" resultType="com.bc.main.vo.BbsCodeVO">
+		SELECT * FROM BBS_CODE WHERE 
+		BBS_IDX BETWEEN 700 AND 999 ORDER BY BBS_IDX
+	</select>
+
+
+	<select id="msnAlm" resultType="com.bc.main.vo.MessengerVO"
+		parameterType="String">
+		SELECT MS_IDX, SEND_ID, CHK FROM MESSENGER WHERE RECV_ID 
+		= #{id} AND CHK != 0 ORDER BY MS_IDX DESC
+	</select>
+
+
+	<select id="memAlm" resultType="com.bc.main.vo.BoardVO"
+		parameterType="String">
+		SELECT BB_IDX, TITLE, CHK FROM B_BOARD WHERE ID = #{id} 
+		AND CHK != 0 ORDER BY BB_IDX DESC 
+	</select>
+
+	<select id="comAlm" resultType="com.bc.main.vo.CommentVO"
+		parameterType="String">
+		SELECT B.TITLE, C.ID, B.BB_IDX, C.CHK, C.BBC_IDX  
+		FROM BB_COMMENT C, B_BOARD B 
+		WHERE B.BB_IDX = C.BB_IDX 
+		AND B.ID = #{id} 
+		AND C.CHK = 1 
+		ORDER BY BBC_IDX DESC
+	</select>
+
+	<select id="msnList" resultType="com.bc.main.vo.MessengerVO" parameterType="String">
+		SELECT * FROM MESSENGER WHERE RECV_ID = #{id} ORDER BY MS_IDX DESC
+	</select>
+
+	<select id="msnOne" resultType="com.bc.main.vo.MessengerVO"
+		parameterType="String"> 
+		SELECT * FROM MESSENGER WHERE MS_IDX = #{ms_idx}
+	</select>
+
+
+
+
+	<update id="updateChk" parameterType="String">
+		UPDATE MESSENGER SET CHK = 
+		0 WHERE MS_IDX = #{ms_idx}
+	</update>
+
+
+
+	<delete id="deleteMsg" parameterType="String">
+		DELETE FROM MESSENGER WHERE 
+		MS_IDX = #{ms_idx}
+	</delete>
+
+
+	<insert id="insertMsg"
+		parameterType="com.bc.main.vo.MessengerVO">
+		INSERT INTO MESSENGER (MS_IDX, TITLE, CONTENT, SEND_ID,	RECV_ID) 
+		VALUES(MS_SEQ.NEXTVAL, #{title}, #{content}, #{send_id}, #{recv_id})
+	</insert>
+	
+	
+	
+	<!-- 알람 체크 sql -->
+	
+	<update id="checkCom" parameterType="String">
+		UPDATE 	BB_COMMENT SET CHK = 0 WHERE BBC_IDX = #{bbc_idx}
+	</update>
+	
+	<update id="checkMem" parameterType="String">
+		UPDATE B_BOARD SET CHK = 0 WHERE BB_IDX = #{bb_idx}
+	</update>
+	
+	<update id="clearMem" parameterType="String">
+		UPDATE B_BOARD SET CHK = 0 WHERE ID = #{id} AND CHK != 0
+	</update>
+	
+	<update id="clearCom" parameterType="String">
+		UPDATE BB_COMMENT SET CHK = 0 
+		WHERE (SELECT DISTINCT B.ID
+				FROM B_BOARD B, BB_COMMENT C 
+				WHERE B.BB_IDX = C.BB_IDX
+				AND B.ID = 'test' 
+				AND C.CHK != 0
+				) = #{id}
+	</update>
+	
+	<update id="clearMsn" parameterType="String">
+		UPDATE MESSENGER SET CHK = 0 WHERE RECV_ID = #{id} AND CHK != 0
+	</update>
+	
+	
+	
+	<!-- 랭크 업 -->
+	
+	<update id="rankUpTo1" parameterType="String">
+		UPDATE MEMBER SET RANK = 1 WHERE ID = #{id}
+	</update>
+	<update id="rankUpTo2" parameterType="String">
+		UPDATE MEMBER SET RANK = 2 WHERE ID = #{id}
+	</update>
+	<update id="rankUpTo3" parameterType="String">
+		UPDATE MEMBER SET RANK = 3 WHERE ID = #{id}
+	</update>
+	<update id="rankUpTo4" parameterType="String">
+		UPDATE MEMBER SET RANK = 4 WHERE ID = #{id}
+	</update>
+	
+	
+</mapper>
+
+
+
+
+
+

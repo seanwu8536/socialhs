@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="baseball">
+	
+	<select id="list" resultType="com.bc.hobby.vo.BaseballBoardVO">
+		SELECT * FROM HB_BASEBALL ORDER BY BASE_IDX DESC
+	</select>
+	
+	<select id="countAll" resultType="int">
+		SELECT COUNT(*) FROM HB_BASEBALL
+	</select>
+	
+	<select id="listTest" resultType="com.bc.hobby.vo.BaseballBoardVO" parameterType="Map">
+		SELECT * 
+			FROM (SELECT ROWNUM R_NUM, B.*
+					FROM (SELECT *
+							FROM HB_BASEBALL
+							ORDER BY BASE_IDX DESC) B
+							)
+		WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	
+</mapper>  
+
+
+
+
+
+

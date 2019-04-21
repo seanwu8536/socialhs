@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="mainupdate">
+	
+	<update id = "update" parameterType="com.bc.hobby.vo.HobbyBoardVO">
+		update b_board set id = #{id}, title = #{title}, content = #{content}, req_member = #{req_member}
+						, l_idx = #{l_idx}, sl_idx = #{sl_idx}, bbs_idx = #{bbs_idx}, hs = #{hs}, latitude = #{latitude},
+						 longitude = #{longitude}, time = #{time}, place = #{place}
+					where bb_idx = #{bb_idx}
+	</update>
+	
+</mapper>  
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="UNPOOLED">
+        <property name="driver" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@203.236.209.182:1521:xe"/>
+        <property name="username" value="socialhs"/>
+        <property name="password" value="socialhs"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <mappers>
+  	<mapper resource="com/bc/mybatis/mapper.xml"/>
+  	<mapper resource="com/bc/mybatis/AttendanceMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/baseballMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/BasketballMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/BullteinBoardMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/englishMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/japaneseMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/LocationMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/memberData.xml"/>
+  	<mapper resource="com/bc/mybatis/photoMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/StockMapper.xml"/>
+  	<mapper resource="com/bc/mybatis/studyMapper.xml"/>
+ 	<mapper resource="com/bc/mybatis/FreeBoardMapper.xml"/>		
+    <mapper resource="com/bc/mybatis/SubLocationMapper.xml"/>
+    <mapper resource="com/bc/mybatis/HobbyBoardMapper.xml"/>
+    <mapper resource="com/bc/mybatis/MainWriteMapper.xml"/>
+    <mapper resource="com/bc/mybatis/MainUpdateMapper.xml"/>
+    <mapper resource="com/bc/mybatis/MainDeleteMapper.xml"/>
+    <mapper resource="com/bc/mybatis/adminMapper.xml"/>
+    <mapper resource="com/bc/mybatis/CommentMapper.xml"/>
+    <mapper resource="com/bc/mybatis/ApplyMapper.xml"/>
+    <mapper resource="com/bc/mybatis/QNAMapper.xml"/>
+    <mapper resource="com/bc/mybatis/SearchBoardMapper.xml"/>
+    
+    
+  </mappers>
+</configuration>
+
+
+
+
+
+
+

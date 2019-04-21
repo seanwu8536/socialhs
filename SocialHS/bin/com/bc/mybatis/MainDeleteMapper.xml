@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="maindelete">
+	
+	<delete id = "delete" parameterType="String">
+		delete from b_board where bb_idx = #{bb_idx}
+	</delete>
+	
+	<delete id = "deleteComment" parameterType="String">
+		delete from bb_comment where bb_idx = #{bb_idx}
+	</delete>
+	
+	<delete id = "deleteAppy" parameterType="String">
+		delete from apply where bb_idx = #{bb_idx}
+	</delete>
+
+</mapper>  
+
+
+
+
+
+

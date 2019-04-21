@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mapper 태그의 namespace 속성 필수 작성  -->  
+<mapper namespace="memberdata">
+	
+	<!-- 멤버 전체 데이타 조회 -->
+	<select id="memberlist" resultType="com.bc.member.memberVO">
+		SELECT * FROM MEMBER ORDER BY U_IDX DESC
+	</select>
+	
+	<!-- 아이디조회 -->
+	<select id="idchk" resultType="com.bc.member.memberVO"
+			parameterType="String">
+		SELECT * FROM MEMBER WHERE ID = #{id}
+	</select>
+	
+	<!-- 회원가입 insert -->
+	<insert id="join" parameterType="com.bc.member.memberVO">
+		INSERT INTO MEMBER
+			(U_IDX, NAME, ID, PW, AGE, PHONE, EMAIL, ADDR, RANK, REGDATE, POINT, BIRTH)
+		VALUES (MEMBER_SEQ.NEXTVAL, #{name}, #{id}, #{pw}, 
+		TRUNC(MONTHS_BETWEEN(SYSDATE, TO_DATE(SUBSTR(#{age}, 1, 4), 'YYYY'))/12+1)
+		, #{phone}, #{email}, #{addr}, '0', SYSDATE, 0, #{birth})
+	</insert>
+	
+	<!-- 내 정보 수정 -->
+	<update id="updateMyinfo" parameterType="com.bc.member.memberVO">
+		UPDATE MEMBER
+			SET PW = #{pw},
+				PHONE =#{phone},
+				EMAIL = #{email},
+				ADDR = #{addr}
+				WHERE ID = #{id}
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<delete id="deleteMyinfo" parameterType="com.bc.member.memberVO">
+		DELETE MEMBER WHERE ID = #{id}
+	</delete>
+	
+	
+	
+	<!-- (mypage) 내가 쓴 게시글 수 조회 -->
+	<select id="mypagetotalCnt" resultType="int">
+		SELECT COUNT(*) FROM B_BOARD WHERE ID = #{id}
+	</select>
+	
+	<!-- (mypage) 내가 쓴 게시글 수 조회 -->
+	<select id="mypagetotalCommCnt" resultType="int">
+		SELECT COUNT(*) FROM BB_COMMENT WHERE ID = #{id}
+	</select>
+	
+	
+	<!-- (mypage) 내가 쓴 전체 게시글 조회 -->
+	<select id="mylist" resultType="com.bc.main.vo.BoardVO"
+		parameterType="Map">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, B.*
+				FROM (SELECT *
+						FROM B_BOARD
+						WHERE ID = #{id}
+						ORDER BY REGDATE DESC) B)
+				WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<!-- (mypage) 내가 쓴 글 상세보기 -->
+	<select id="myWrite" resultType="com.bc.main.vo.BoardVO"
+		parameterType="String">
+		SELECT * FROM B_BOARD WHERE ID = #{id}
+	</select>
+	
+	<!-- (mypage) 내가 쓴 전체 댓글 조회 -->
+	<select id="myCommList" resultType="com.bc.main.vo.CommentVO"
+	parameterType="Map">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, T.*
+				FROM (SELECT B.TITLE, C.*
+						FROM B_BOARD B
+						INNER JOIN BB_COMMENT C ON B.BB_IDX = C.BB_IDX
+						WHERE C.ID = #{id}
+						ORDER BY C.REGDATE DESC) T)
+				WHERE R_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	
+</mapper>  
